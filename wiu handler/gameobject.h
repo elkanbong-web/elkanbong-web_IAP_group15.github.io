@@ -25,5 +25,6 @@ public:
     void setx(int x);
 
     void sety(int y);
+    void seticon(char a);
 };
 

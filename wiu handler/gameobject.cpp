@@ -2,11 +2,19 @@
 
 
 
+
+
 char gameobject::geticon() {
 
 	return icon;
 
 }
+
+void gameobject::seticon(char a)
+{
+	icon = a;
+}
+
 
 Coordinates gameobject::getxy()
 {

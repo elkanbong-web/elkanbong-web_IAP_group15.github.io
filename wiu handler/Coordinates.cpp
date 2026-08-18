@@ -13,7 +13,7 @@ int Coordinates::Returnx()
 
 
 int Coordinates::Returny(){
-    return y;
+ return y;
 }
 
 void Coordinates::Placex(int a)

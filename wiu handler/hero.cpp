@@ -29,66 +29,134 @@ void hero::Damage(entity* victim)
 
 
 void hero::movementcheck(entity** entitylist, gameobject** gameobjectlist)
+
 {
-	entity* target = nullptr;
-	for (int u = 0; u < 4; u++) {
-		if (u != 0 && entitylist[u] != nullptr) {
-			int dx = std::abs(getx() - entitylist[u]->getx());
-			int dy = std::abs(gety() - entitylist[u]->gety());
-			bool isInRange = (dx <= getrange() && dy == 0) || (dx == 0 && dy <= getrange());
+	gameobject* target = nullptr;
+	for (int u = 0; u < 3; u++) {
+		if ( gameobjectlist[u] != nullptr) {
+			int dx = std::abs(getx() - gameobjectlist[u]->getx());
+			int dy = std::abs(gety() - gameobjectlist[u]->gety());
+			bool isInRange = (dx <= 1 && dy == 0) || (dx == 0 && dy <= 1);
 			if (isInRange) {
-				target = entitylist[u];
-				break;
-			}
-		}
-	}
-	if (target != nullptr) {
-	
-		std::cout << std::endl;
-		std::cout << "A goblin is in range! Attack? (y/n): ";
-		char choice =_getch();
-		if (choice == 'y' || choice == 'Y') {
-			Damage(target);
-			if (target->gethealth() <= 0) {
-				for (int u = 0; u < 4; u++) {
-					if (entitylist[u] == target) {
-						delete entitylist[u];
-						entitylist[u] = nullptr;
-					}
+				target = gameobjectlist[u];
+
+				if (target->geticon() == 'O') {
+
+					if (target)
+						std::cout << std::endl;
+					std::cout << "Theres a boulder you can grab (press g to grab): ";
+
+
+				}
+				else if (target->geticon() == '0') {
+					/*	if (target)
+							std::cout << std::endl;*/
+					std::cout << "You are grabbing a boulder (Press g to drop): ";
+
+
 				}
 			}
-			return;
 		}
 	}
 
-	//turn this into an array zi ming and then make it into the undo function
-	//ill do something similar to the boulder so when you recieve it all you need to do is turn it into an array
+
+	//nvm its ok 
 
 	int prevx = getx();
 	int prevy = gety();
+
+	int boulderprevx;
+	int boulderprevy;
+
 	char input = _getch();
 	switch (input) {
 	case 'w':
 		sety(gety() - 1);
+		if (!(target == nullptr)) {
+
+			boulderprevy = target->gety();
+			boulderprevx = target->getx();
+			if (target->geticon() == '0') {
+				target->sety(target->gety() - 1);
+				
+			}
+		}
+		
 		break;
 	case 'a':
-		setx(getx() - 1);
+	
+			setx(getx() - 1);
+	
+			if (!(target == nullptr)) {
+				boulderprevy = target->gety();
+				boulderprevx = target->getx();
+				if (target->geticon() == '0') {
+
+					target->setx(target->getx() - 1);
+				}
+			}
+		
 		break;
 	case 'd':
 		setx(getx() + 1);
+		if (!(target == nullptr)) {
+			boulderprevy = target->gety();
+			boulderprevx = target->getx();
+			if (target->geticon() == '0') {
+				target->setx(target->getx() + 1);
+			}
+		}
 		break;
 	case's':
 		sety(gety() + 1);
+		if (!(target == nullptr)) {
+			boulderprevy = target->gety();
+			boulderprevx = target->getx();
+			if (target->geticon() == '0') {
+				target->sety(target->gety() + 1);
+			}
+		}
 		break;
-	case'b':
+		
+
+
+		//idea use static cast on this to call boulder move function 
+
+		//
+
+	case'g': //universal grab for button
+		if (!(target == nullptr)) {
+			if (target->geticon() == '0' || target->geticon() == 'O')
+				if (target->geticon() == 'O') {
+					target->seticon('0');
+					break;
+				}
+			if (target->geticon() == '0') {
+				target->seticon('O');
+				break;
+			}
+		}
 		break;
+	
 	default:
 		std::cout << "invalid input";
 	}
 
 	//runs thru the item list 
 	for (int u = 0; u < 4; u++) {
-		if (u == 0) {
+		if (u == 0) { // checking for itself
+			//if gameobject
+			if (!(target == nullptr)) {
+				if (target->getx() == entitylist[u]->getx() &&
+					target->gety() == entitylist[u]->gety())
+				{
+					target->setx(boulderprevx);
+					target->sety(boulderprevy);
+					setx(prevx);
+					sety(prevy);
+
+				}
+			}
 			continue;
 		}
 		if (entitylist[u] != nullptr) {
@@ -122,43 +190,44 @@ void hero::movementcheck(entity** entitylist, gameobject** gameobjectlist)
 
 
 				//boulder pushing time 
-				if (gameobjectlist[u]->geticon() == 'O') {
+				if (gameobjectlist[u]->geticon() == 'O' || gameobjectlist[u]->geticon() == '0') {
 
 					std::cout << "boulder push";
+					setx(prevx);
+					sety(prevy);
 
+					//if (gameobjectlist[u]->gety() && gameobjectlist[u]->getx()) {
+					//	switch (input) {
+					//		if (gameobjectlist[u]->gety() == 1 || gameobjectlist[u]->gety() == 15) {
 
-					if (gameobjectlist[u]->gety() && gameobjectlist[u]->getx()) {
-						switch (input) {
-							if (gameobjectlist[u]->gety() == 1 || gameobjectlist[u]->gety() == 15) {
+					//	case 'w':
+					//		gameobjectlist[u]->sety(gameobjectlist[u]->gety() - 1);
+					//		break;
+					//	case's':
+					//		gameobjectlist[u]->sety(gameobjectlist[u]->gety() + 1);
+					//		break;
 
-						case 'w':
-							gameobjectlist[u]->sety(gameobjectlist[u]->gety() - 1);
-							break;
-						case's':
-							gameobjectlist[u]->sety(gameobjectlist[u]->gety() + 1);
-							break;
-
-							}
+					//		}
 				
-						//left and right 
-							if (gameobjectlist[u]->getx() == 1 || gameobjectlist[u]->getx() == 15) {
-						case 'a':
-							gameobjectlist[u]->setx(gameobjectlist[u]->getx() - 1);
-							break;
-						case 'd':
-							gameobjectlist[u]->setx(gameobjectlist[u]->getx() + 1);
-							break;
+					//	//left and right 
+					//		if (gameobjectlist[u]->getx() == 1 || gameobjectlist[u]->getx() == 15) {
+					//	case 'a':
+					//		gameobjectlist[u]->setx(gameobjectlist[u]->getx() - 1);
+					//		break;
+					//	case 'd':
+					//		gameobjectlist[u]->setx(gameobjectlist[u]->getx() + 1);
+					//		break;
 
-							}
-						case'b':
-							break;
-						default:
-							std::cout << "invalid input";
-						}
-					}
-					else {
+					//		}
+					//	case'b':
+					//		break;
+					//	default:
+					//		std::cout << "invalid input";
+					//	}
+					//}
+					//else {
 
-					}
+					//}
 
 
 

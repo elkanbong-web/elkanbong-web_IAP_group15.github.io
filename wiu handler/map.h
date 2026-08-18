@@ -17,11 +17,7 @@ public:
 
 
 
-	int returngridx();
 
-
-
-	int returngridy();
 	map();
 
 	~map();
