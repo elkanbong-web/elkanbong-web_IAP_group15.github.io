@@ -32,7 +32,7 @@ map::map()
 	gameobjectlist = new gameobject* [3]; //CHANGE GAMEOBJECT LIST TO HOWEVER YOU LIKE
 	//THIS CONTAINS LIKE 1 boulder
 
-
+	//assumed wall list goes here 
 	std::string character;
 	std::cout << "Start?";
 	std::cin >> character;
@@ -200,6 +200,7 @@ void map::print()
 
 
 		// i get the full map and print out everything 
+	std::cout << '+';
 		for (int i = 0; i < 15; i++) {
 			std::cout << std::endl;
 			for (int j = 0; j < 15; j++) {
