@@ -92,7 +92,7 @@ map::map()
 		}
 	}
 
-	//// Entity vs GameObject (no self-check needed — different arrays, never the same object)
+	//// Entity vs GameObject (no self-check needed â€” different arrays, never the same object)
 	//for (int i = 0; i < 4; i++) {
 	//	for (int u = 0; u < 3; u++) {
 	//		if (entitylist[i]->getx() == gameobjectlist[u]->getx() &&
@@ -116,7 +116,7 @@ map::map()
 	//	}
 	//}
 
-	//// GameObject vs Entity (no self-check needed — different arrays)
+	//// GameObject vs Entity (no self-check needed â€” different arrays)
 	//for (int i = 0; i < 3; i++) {
 	//	for (int u = 0; u < 4; u++) {
 	//		if (gameobjectlist[i]->getx() == entitylist[u]->getx() &&
@@ -170,6 +170,7 @@ void map::print()
 		if (!(entitylist[i] == nullptr)) {
 			map[entitylist[i]->gety()][entitylist[i]->getx()] = entitylist[i]->geticon();
 		}
+
 	}
 
 	//hello just read me i explain
@@ -200,13 +201,18 @@ void map::print()
 
 
 		// i get the full map and print out everything 
-	std::cout << '+';
+
+	for (int i = 0; i < 15; i++) {
+	}
+	
 		for (int i = 0; i < 15; i++) {
 			std::cout << std::endl;
+			std::cout << '|';
 			for (int j = 0; j < 15; j++) {
 				std::cout << map[i][j];
 
 			}
+			std::cout << '|';
 		}
 	}
 
